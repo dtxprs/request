@@ -134,7 +134,7 @@ cd ./dist/request
 ```
 and publish it to npm:
 ```
-npm publish
+npm publish --access public
 ```
 
 ### <a name="version"></a>9. Version
