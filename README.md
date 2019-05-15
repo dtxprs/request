@@ -1,27 +1,141 @@
-# Ridder
+Request service
+=====
+1. [Description](#description)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Methods](#methods)
+5. [Git repository](#git)
+6. [Run tests](#testing)
+7. [Build](#build)
+8. [Publish to npm](#publish)
+9. [Version](#version)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
+### <a name="description"></a>1. Description
+`RequestService` is an extension of the HttpClient service which is implementing the 
+error handling method on top of `get()` and `post()` methods 
+  
+### <a name="installation"></a>2. Installation
+Install the module into your application and save it as a dev 
+dependency in your `package.json` file  
+```
+npm install @ridder/request --save-dev
+```
 
-## Development server
+### <a name="usage"></a>3. Usage
+In order to use the `RequestService` you have to:
+1. Include the `RequestModule` in the app's imports list:
+   ```typescript
+     import { RequestModule } from '@ridder/request/request.module';
+     //...
+     imports: [
+       //...
+       RequestModule
+       //...
+     ]
+   ```
+2. inject the `RequestService` via dependency injection 
+into your services/components and use it:
+   ```typescript
+    import { RequestService } from '@ridder/request/request.service';
+    //...
+    export class AppComponent implements OnInit{
+    
+      constructor(private request: RequestService) {
+      }
+    
+      ngOnInit() {
+        this.request.get('/assets/test.json').subscribe((response)=>{
+          console.log('Response:', response);
+        })
+      }
+    }
+   ```
+  
+### <a name="methods"></a>4. Methods
+  
+#### get<T>(url: string, errorParams?: ResponseError<T>, httpOptions: any = {}): Observable<T>
+Performs an http get request.
+  
+*Parameters:*  
+**url** - url to be requested.  
+**errorParams** - `optional` default error parameters and data which should be returned back in 
+case of an error.  
+Structure of the object:
+```typescript
+{
+  serviceName?: string;
+  operation?: string;
+  result?: T;
+}
+``` 
+where `T` is the type of the data which should be returned back.  
+**httpOptions** - `optional` additional http options (headers etc.) used with the request.  
+  
+*Return:*  
+Method returns an `Observable<T>` which contains the response data coming from the server, 
+where `T` is the type of the data which should be returned back.    
+  
+#### post<D, R>(url: string, data: D, errorParams?: ResponseError<R>, httpOptions: any = {}): Observable<R>
+Performs an http get request.
+  
+*Parameters:*  
+**url** - url to be requested.  
+**data** - data to be send to the server via post request. `D` is the type of data to be sent.  
+**errorParams** - `optional` default error parameters and data which should be returned back in 
+case of an error.  
+Structure of the object:
+```typescript
+{
+  serviceName?: string;
+  operation?: string;
+  result?: R;
+}
+``` 
+where `R` is the type of the data which should be returned back.  
+**httpOptions** - `optional` additional http options (headers etc.) used with the request.  
+  
+*Return:*  
+Method returns an `Observable<R>` which contains the response data coming from the server, 
+where `R` is the type of the data which should be returned back.    
+  
+#### private handleError<T>(serviceName = '', operation = '', result = {} as T)
+Handle the error and throws and error observable with the expected result.
+  
+*Parameters:*  
+**serviceName** - `optional` name of the service to be logged within the error message.  
+**operation** - `optional` operation to be logged within the error message.  
+**result** - `optional` expected result which should be returned back as an error observable.  
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+*Return:*  
+Method returns an error `Observable<T>` which contains the result of type `T`. 
+  
+  
+### <a name="git"></a>5. Git repository
+[https://github.com/dtxprs/request](https://github.com/dtxprs/request)
 
-## Code scaffolding
+### <a name="testing"></a>6. Run tests
+To run the unit tests, use this command:
+```
+ng test --code-coverage --project=request
+```
+Current test coverage is 100%!
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### <a name="build"></a>7. Build
+To build the final package run this command:
+```
+ng build request
+```
+The build process will generate the packed sources into the `dist` folder.  
 
-## Build
+### <a name="publish"></a>8. Publish to npm
+To publish the new version to `npm`, go into the `dist` folder:
+```
+cd ./dist/request
+```
+and publish it to npm:
+```
+npm publish
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### <a name="version"></a>9. Version
+1.0.0

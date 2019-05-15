@@ -3,13 +3,6 @@ import { RequestService } from './request.service';
 import { ResponseError } from './types/response-error';
 
 describe('RequestService', () => {
-  // beforeEach(() => TestBed.configureTestingModule({}));
-  //
-  // it('should be created', () => {
-  //   const service: RequestService = TestBed.get(RequestService);
-  //   expect(service).toBeTruthy();
-  // });
-
   let request: RequestService;
   let httpClientSpy;
   const errorResponse = {success: false};
@@ -83,8 +76,6 @@ describe('RequestService', () => {
   });
 
   it('test get() method with empty error params', (done) => {
-    expect(request).toBeTruthy();
-
     httpClientSpy.get.and.returnValue(of(1));
 
     // call get() method
@@ -94,4 +85,27 @@ describe('RequestService', () => {
       done();
     });
   });
+
+  it('test get() method without error params', (done) => {
+    httpClientSpy.get.and.returnValue(of(1));
+
+    // call get() method
+    request.get('testUrl').subscribe((response) => {
+      expect(httpClientSpy.get).toHaveBeenCalledTimes(1);
+      expect(response).toBe(1);
+      done();
+    });
+  });
+
+  it('test post() method without error params', (done) => {
+    httpClientSpy.post.and.returnValue(of(1));
+
+    // call post() method
+    request.post('testUrl', {}).subscribe((response) => {
+      expect(httpClientSpy.post).toHaveBeenCalledTimes(1);
+      expect(response).toBe(1);
+      done();
+    });
+  });
+
 });

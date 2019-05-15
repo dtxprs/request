@@ -14,20 +14,30 @@ export class RequestService {
   constructor(private http: HttpClient) {
   }
 
-  get<T>(url: string, errorParams: ResponseError<T>, httpOptions: any = {}): Observable<T> {
+  get<T>(url: string, errorParams?: ResponseError<T>, httpOptions: any = {}): Observable<T> {
     const requestHttpOptions: Object = {...this.httpOptions, ...httpOptions};
+    const defaultError = errorParams ? errorParams : RequestService.getDefaultErrorParams();
 
     return this.http.get<T>(url, requestHttpOptions).pipe(
-      catchError(this.handleError(errorParams.serviceName, errorParams.operation, errorParams.result))
+      catchError(this.handleError(defaultError.serviceName, defaultError.operation, defaultError.result))
     );
   }
 
-  post<D, R>(url: string, data: D, errorParams: ResponseError<R>, httpOptions: any = {}): Observable<R> {
+  post<D, R>(url: string, data: D, errorParams?: ResponseError<R>, httpOptions: any = {}): Observable<R> {
     const requestHttpOptions: Object = {...this.httpOptions, ...httpOptions};
+    const defaultError = errorParams ? errorParams : RequestService.getDefaultErrorParams();
 
     return this.http.post<R>(url, data, requestHttpOptions).pipe(
-      catchError(this.handleError(errorParams.serviceName, errorParams.operation, errorParams.result))
+      catchError(this.handleError(defaultError.serviceName, defaultError.operation, defaultError.result))
     );
+  }
+
+  static getDefaultErrorParams(): ResponseError<null> {
+    return {
+      operation: 'Requesting data',
+      serviceName: 'Request Service',
+      result: null
+    };
   }
 
   private handleError<T>(serviceName = '', operation = '', result = {} as T) {
@@ -45,6 +55,5 @@ export class RequestService {
       // Let the app keep running by returning a safe result.
       return throwError(result);
     };
-
   }
 }
