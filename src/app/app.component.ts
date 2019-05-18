@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RequestService } from '../../projects/request/src/lib/request.service';
+import { RequestService } from '@ridder/request';
 
 @Component({
   selector: 'app-root',

@@ -25,7 +25,7 @@ npm install @ridder/request --save-dev
 In order to use the `RequestService` you have to:
 1. Include the `RequestModule` in the app's imports list:
    ```typescript
-     import { RequestModule } from '@ridder/request/request.module';
+     import { RequestModule } from '@ridder/request';
      //...
      imports: [
        //...
@@ -36,7 +36,7 @@ In order to use the `RequestService` you have to:
 2. inject the `RequestService` via dependency injection 
 into your services/components and use it:
    ```typescript
-    import { RequestService } from '@ridder/request/request.service';
+    import { RequestService } from '@ridder/request';
     //...
     export class AppComponent implements OnInit{
     
