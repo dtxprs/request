@@ -1,6 +1,6 @@
 {
   "name": "@ridder/request",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "dtxprs",
     "email": "ridderdev@gmail.com",
@@ -39,8 +39,8 @@
     "error handling"
   ],
   "peerDependencies": {
-    "@angular/common": "^7.2.0",
-    "@angular/core": "^7.2.0",
-    "rxjs": "~6.3.3"
+    "@angular/common": ">=7.2.0",
+    "@angular/core": ">=7.2.0",
+    "rxjs": ">=6.3.3"
   }
 }
